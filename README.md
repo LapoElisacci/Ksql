@@ -1,8 +1,21 @@
-# Ksql
+![][ruby-shield]
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ksql`. To experiment with that code, run `bin/console` for an interactive prompt.
+<p align="center">
+  <img width="180" src="https://user-images.githubusercontent.com/50866745/147449973-a743b690-fef4-4b97-86d3-cc01f1695118.png" >
+</p>
 
-TODO: Delete this and the text above, and describe your gem
+# Ruby KSQL (Under development)
+
+![](https://img.shields.io/static/v1?label=Latest&message=unreleased&color=blue)
+![](https://img.shields.io/static/v1?label=Code+coverage&message=70%&color=yellow)
+![](https://img.shields.io/static/v1?label=Test+coverage&message=0%&color=important)
+![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
+
+KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
+
+## What is ksqlDB?
+
+ksqlDB is a database purpose-built for [Apache Kafka®](https://kafka.apache.org/) streams processing applications, more details [here](https://ksqldb.io/).
 
 ## Installation
 
@@ -22,7 +35,35 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+KSQL allows you to perform Queries / Statements requests to ksqlDB REST API. 
+
+### Configuration
+
+The gem requires a minimum configuration to connect to ksqlDB, it is shipped with a built-in generator to create a Rails initializer.
+
+
+    $ rails generate ksql
+    
+```Ruby
+Ksql.configure do |config|
+  config.host = 'http://localhost:8088' # Required
+  config.auth = 'user:password' # optional
+end
+```
+
+### Statements
+
+According to [ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/): "All statements, except those starting with `SELECT`, can be run on the `/ksql` endpoint".
+
+The gem provides a method to perform such operations, like so:
+
+```Ruby
+Ksql::Http.ksql("SHOW TABLES;")
+```
+
+### Queries
+
+According to [ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/query-endpoint/), both `Push` and `Pull` Queries 
 
 ## Development
 
@@ -32,8 +73,12 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ksql.
+Bug reports and pull requests are welcome on GitHub at https://github.com/LapoElisacci/ksql.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+<!--- MARKDOWN LINKS --->
+
+[ruby-shield]: https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white
