@@ -66,6 +66,29 @@ Ksql::Http.ksql("SHOW TABLES;")
 
 According to [ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/query-endpoint/), both `Push` and `Pull` Queries 
 
+### Supported ksqlDB versions
+
+| Version |  |
+| ------ | -- |
+| 0.23.1 | :heavy_check_mark: Supported |
+| 0.22.0 | :heavy_check_mark: Supported |
+| 0.21.0 | :heavy_check_mark: Supported |
+| 0.20.0 | :heavy_check_mark: Supported |
+| 0.19.0 | :heavy_check_mark: Supported |
+| 0.18.0 | :heavy_check_mark: Supported |
+| 0.17.0 | :x: Untested |
+| 0.15.0 | :x: Untested |
+| 0.14.0 | :x: Untested |
+| 0.13.0 | :x: Untested |
+| 0.12.0 | :x: Untested |
+| 0.11.0 | :x: Untested |
+| 0.10.2 | :x: Untested |
+| 0.10.1 | :x: Untested |
+| 0.10.0 | :x: Untested |
+| 0.9.0 | :x: Unsupported |
+| 0.8.1 | :x: Unsupported |
+| 0.7.1 | :x: Unsupported |
+
 ## Known issues
 
 ### ksqlDB close-query
