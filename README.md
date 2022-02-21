@@ -70,7 +70,8 @@ ksqlDB has three kinds of Queries (more details [here](https://docs.ksqldb.io/en
 
 ### Persisten Query
 
-`Persistent queries` are server-side queries, there's nothing much to say here.
+`Persistent queries` are server-side queries and there's nothing much to say here.
+
 You can checkout the official doc [here](https://docs.ksqldb.io/en/latest/concepts/queries/#persistent)
 
 ### Push Query
