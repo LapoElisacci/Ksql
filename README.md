@@ -199,6 +199,7 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 Make sure you have a working instance of ksqlDB, you can find the official quickstart [here](https://ksqldb.io/quickstart.html).
 
 Each branch must come along with a relative Issue and Pull Request.
+
 Please follow the branch naming convention:
 
 1. New feature: `master_dev/#ISSUEID_short_description`
@@ -206,9 +207,9 @@ Please follow the branch naming convention:
 
 Example:
 
-`hotfix/1_error_handling`
+`master_dev/1_tests`
 
-`master_dev/1_error_handling`
+`hotfix/2_handle_errors`
 
 ## Contributing
 
