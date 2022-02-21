@@ -48,7 +48,6 @@ The gem requires a minimum configuration to connect to ksqlDB, it is shipped wit
 ```Ruby
 Ksql.configure do |config|
   config.host = 'http://localhost:8088' # Required
-  config.auth = 'user:password' # optional
 end
 ```
 
