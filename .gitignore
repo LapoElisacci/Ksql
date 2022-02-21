@@ -8,6 +8,7 @@
 /tmp/
 
 # rspec failure tracking
+.DS_Store
 .stignore
 .rspec_status
 *.yml
