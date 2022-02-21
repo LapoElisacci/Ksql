@@ -1,5 +1,12 @@
-## [Unreleased]
+## [Releases]
 
-## [0.1.0] - 2022-02-19
+## [0.1.0] - 2022-02-21
 
-- Initial release
+- First release
+
+### Added
+
+- Statements feature
+- Push Queries feature
+- Pull Queries feature
+- Close Queries feature

@@ -8,7 +8,7 @@
 
 ![](https://img.shields.io/static/v1?label=Latest&message=0.1.0&color=blue)
 ![](https://img.shields.io/static/v1?label=Coverage&message=95%&color=green)
-![](https://img.shields.io/static/v1?label=Documentation&message=95%&color=success)
+![](https://img.shields.io/static/v1?label=Documentation&message=98%&color=success)
 ![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
 <!-- ![](https://img.shields.io/static/v1?label=Test&message=0%&color=red) -->
 
