@@ -5,10 +5,10 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in ksql.gemspec
 gemspec
 
-gem 'rake', '~> 13.0'
+gem 'byebug', '~> 11'
 
-gem 'rspec', '~> 3.0'
+gem 'rake', '~> 13'
 
-gem 'vcr', '~> 6.0'
+gem 'rspec', '~> 3'
 
-gem 'rubocop', '~> 1.21'
+gem 'rubocop', '~> 1'
