@@ -32,6 +32,7 @@ module Ksql
       def ksql(ksql, options: {})
         response = Ksql::Api::Ksql.new.call(ksql, **options)
         return Ksql::Error.new(response.body) if response.error?
+        return response.body unless response.body.present?
 
         parsed_body = response.body.first
         row_type = parsed_body.delete('@type').camelize

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'securerandom'
+
 module Ksql
   class Collection < Struct.new(:rows)
     include Enumerable
@@ -39,7 +41,8 @@ module Ksql
       # @return [String] Collection element Struct name
       #
       def id_to_struct(id)
-        "Query#{id.strip.gsub('-', '_')}Row"
+        struct_id = id.present? ? id.strip.gsub('-', '_') : SecureRandom.hex
+        "Query#{struct_id}Row"
       end
   end
 end
