@@ -198,7 +198,7 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 
 Make sure you have a working instance of ksqlDB, you can find the official quickstart [here](https://ksqldb.io/quickstart.html).
 
-Each branch must come along with a relative Issue and Pull Request.
+Each branch must come along with relative Issues and Pull Request.
 
 Please follow the branch naming convention:
 
