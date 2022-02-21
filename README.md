@@ -54,7 +54,7 @@ end
 
 ### Statements
 
-All statements, except those starting with `SELECT` ([ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)), can be run on the with the Client `ksql` method.
+All statements, except those starting with `SELECT` ([ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)), can be run with the `ksql` method:
 
 ```Ruby
 Ksql::Client.ksql("SHOW TABLES;")
@@ -64,16 +64,16 @@ Ksql::Client.ksql("SHOW TABLES;")
 Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude) VALUES ('18f4ea86', 37.3903, -122.0643);")
 ```
 
-### Queries
+## Queries
 
 ksqlDB has three kinds of Queries (more details [here](https://docs.ksqldb.io/en/latest/concepts/queries/)).
 
-## Persisten Query
+### Persisten Query
 
 `Persistent queries` are server-side queries, there's nothing much to say here.
 You can checkout the official doc [here](https://docs.ksqldb.io/en/latest/concepts/queries/#persistent)
 
-## Push Query
+### Push Query
 
 `Push queries` enable you to query a stream or materialized table with a subscription to the results. 
 They run asynchronously and you can spot them as they usually (should we say always?) include the `EMIT` keyword at the end of the SQL statement.
@@ -103,7 +103,7 @@ You can close the connection by calling the `close` method:
 stream.close
 ```
 
-### Full Example
+Example:
 
 ```Ruby
 # Define the Stream
@@ -123,7 +123,7 @@ sleep(10)
 stream.close
 ```
 
-## Pull Query
+### Pull Query
 
 `Pull queries` are the most "traditional" ones, they run synchronously and they can be executed with the `query` method"
 
@@ -156,7 +156,7 @@ Ksql::Client.close_query("CTAS_RIDERSNEARMOUNTAINVIEW_5")
 
 **WARNING:** There's a known issue here, read below
 
-### Supported ksqlDB versions
+## Supported ksqlDB versions
 
 | Version |  |
 | ------ | -- |
