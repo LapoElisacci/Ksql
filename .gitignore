@@ -8,8 +8,9 @@
 /tmp/
 
 # rspec failure tracking
+.byebug_history
 .DS_Store
-.stignore
 .rspec_status
+.stignore
 *.yml
 *.gem

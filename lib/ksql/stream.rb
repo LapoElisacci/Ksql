@@ -29,8 +29,6 @@ module Ksql
     #
     # Start the Query Stream and execute the passed block
     #
-    # TODO Handle errors
-    #
     # @param [Block] &block Block to be executed on each event
     #
     # @return [NilClass] Nil
