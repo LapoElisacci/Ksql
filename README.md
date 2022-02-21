@@ -9,7 +9,7 @@
 ![](https://img.shields.io/static/v1?label=Latest&message=unreleased&color=blue)
 ![](https://img.shields.io/static/v1?label=Coverage&message=90%&color=green)
 ![](https://img.shields.io/static/v1?label=Test&message=0%&color=red)
-![](https://img.shields.io/static/v1?label=Documentation&message=95%&color=important)
+![](https://img.shields.io/static/v1?label=Documentation&message=95%&color=success)
 ![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
@@ -88,7 +88,7 @@ to subscribe the Stream, call the `start` method. It accepts a block that runs e
 
 ```Ruby
 stream.start do |location|
-  # The streaming events get wrapped inside a ORM-like Class
+  # The streaming events get wrapped inside an ORM-like Class
   puts location.latitude
   puts location.longitude
 end
@@ -190,14 +190,25 @@ You can find some implementation examples [here](https://github.com/LapoElisacci
 Although it actually works, at the moment, the latest release of ksqlDB returns an error each time you request the `/close-query` endpoint.
 Therefore the query will correctly get closed but an error will get returned anyways.
 
-Issue [here](https://github.com/confluentinc/ksql/issues/8251)
-
+ksqlDB Issue [here](https://github.com/confluentinc/ksql/issues/8251).
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bundle install` to install dependencies. Then, run `bundle exec rspec spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Make sure you have a working instance of ksqlDB, you can find the official quickstart [here](https://ksqldb.io/quickstart.html).
+
+Each branch must come along with a relative Issue and Pull Request.
+Please follow the branch naming convention:
+
+1. New feature: `master_dev/#ISSUEID_short_description`
+2. Bugfix: `hotfix/#ISSUEID_short_description`
+
+Example:
+
+`hotfix/1_error_handling`
+
+`master_dev/1_error_handling`
 
 ## Contributing
 
