@@ -30,5 +30,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport', '>= 5'
-  spec.add_dependency 'httparty', '~> 0'
+  spec.add_dependency 'hashie', '~> 4'
+  spec.add_dependency 'net-http2', '~> 0'
 end

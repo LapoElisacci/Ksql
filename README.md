@@ -65,6 +65,16 @@ Ksql::Http.ksql("SHOW TABLES;")
 
 According to [ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/query-endpoint/), both `Push` and `Pull` Queries 
 
+## Known issues
+
+### ksqlDB close-query
+
+Although it actually works, at the moment, the latest release of ksqlDB returns an error each time you request the `/close-query` endpoint.
+Therefore the query will correctly get closed but an error will get returned anyways.
+
+Issue [here](https://github.com/confluentinc/ksql/issues/8251)
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
