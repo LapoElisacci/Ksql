@@ -30,7 +30,7 @@ module Ksql
       # @return [Ksql::OpenStruct] Statement result
       #
       def ksql(ksql, options: {})
-        response = Ksql::Api::Ksql.new.call(ksql, options)
+        response = Ksql::Api::Ksql.new.call(ksql, **options)
         return Ksql::Error.new(response.body) if response.error?
 
         parsed_body = response.body.first

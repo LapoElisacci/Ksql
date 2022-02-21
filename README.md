@@ -54,17 +54,107 @@ end
 
 ### Statements
 
-According to [ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/): "All statements, except those starting with `SELECT`, can be run on the `/ksql` endpoint".
-
-The gem provides a method to perform such operations, like so:
+All statements, except those starting with `SELECT` ([ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)), can be run on the with the Client `ksql` method.
 
 ```Ruby
-Ksql::Http.ksql("SHOW TABLES;")
+Ksql::Client.ksql("SHOW TABLES;")
+
+# Or
+
+Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude) VALUES ('18f4ea86', 37.3903, -122.0643);")
 ```
 
 ### Queries
 
-According to [ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/query-endpoint/), both `Push` and `Pull` Queries 
+ksqlDB has three kinds of Queries (more details [here](https://docs.ksqldb.io/en/latest/concepts/queries/)).
+
+## Persisten Query
+
+`Persistent queries` are server-side queries, there's nothing much to say here.
+You can checkout the official doc [here](https://docs.ksqldb.io/en/latest/concepts/queries/#persistent)
+
+## Push Query
+
+`Push queries` enable you to query a stream or materialized table with a subscription to the results. 
+They run asynchronously and you can spot them as they usually (should we say always?) include the `EMIT` keyword at the end of the SQL statement.
+
+The gem allows you to create a `ksqlDB Push query` connection through the `query_stream` method:
+
+```Ruby
+stream = Ksql::Client.query_stream("SELECT * FROM riderLocations EMIT CHANGES;")
+```
+
+to subscribe the Stream, call the `start` method. It accepts a block that runs each time a result gets recieved:
+
+```Ruby
+stream.start do |location|
+  # The streaming events get wrapped inside a ORM-like Class
+  puts location.latitude
+  puts location.longitude
+end
+```
+
+The block gets executed inside a separated Thread.
+You can close the connection by calling the `close` method:
+
+**WARNING:** This interrupts the connection between ksqlDB and the client.
+
+```Ruby
+stream.close
+```
+
+### Full Example
+
+```Ruby
+# Define the Stream
+stream = Ksql::Client.query_stream("SELECT * FROM riderLocations EMIT CHANGES;")
+
+# Start the connection
+stream.start do |location|
+  # This code will get executed inside a separated Thread
+  puts location.latitude
+  puts location.longitude
+end
+
+# The code flow goes on
+sleep(10)
+
+# Close the connection
+stream.close
+```
+
+## Pull Query
+
+`Pull queries` are the most "traditional" ones, they run synchronously and they can be executed with the `query` method"
+
+```Ruby
+locations = Ksql::Client.query("SELECT * FROM riderLocations;")
+```
+
+An Enumerable collection of ORM-like Objects is returned.
+Iteration methods are available on the collection:
+
+```Ruby
+locations.each do |location|
+  # do something
+end
+
+locations.map do |location|
+  # do something
+end
+
+locations.count
+```
+
+## Close Query
+
+In case you need to close a `Persistent Query` you can do so with the `close_query` method, passing the Query ID:
+
+```Ruby
+Ksql::Client.close_query("CTAS_RIDERSNEARMOUNTAINVIEW_5")
+```
+
+**WARNING:** There's a known issue here, read below
 
 ### Supported ksqlDB versions
 
