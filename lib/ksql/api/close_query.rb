@@ -5,6 +5,13 @@ module Ksql
     class CloseQuery < Base
       ENDPOINT = '/close-query'.freeze
 
+      #
+      # Perform a Sync request to /close-query endpoint
+      #
+      # @param [String] id Query ID
+      #
+      # @return [Ksql::Response] Request response
+      #
       def call(id)
         super(
           body: {

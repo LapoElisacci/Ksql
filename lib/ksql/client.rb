@@ -57,7 +57,15 @@ module Ksql
         Ksql::Collection.new(headers, parsed_body)
       end
 
-      def query_stream(sql, properties: {}, &block)
+      #
+      # Prepare a Stream query connection
+      #
+      # @param [String] sql SQL Query Statement
+      # @param [Hash] properties Statement optional properties
+      #
+      # @return [Ksql::Stream] Prepared Stream Query
+      #
+      def query_stream(sql, properties: {})
         api = Ksql::Api::QueryStream.new
         request = api.prepare_request(sql, properties: properties)
 
