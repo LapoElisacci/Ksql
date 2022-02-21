@@ -4,10 +4,10 @@
   <img width="180" src="https://user-images.githubusercontent.com/50866745/147449973-a743b690-fef4-4b97-86d3-cc01f1695118.png" >
 </p>
 
-# Ruby KSQL (Under development)
+# Ruby KSQL
 
-![](https://img.shields.io/static/v1?label=Latest&message=unreleased&color=blue)
-![](https://img.shields.io/static/v1?label=Coverage&message=90%&color=green)
+![](https://img.shields.io/static/v1?label=Latest&message=0.1.0&color=blue)
+![](https://img.shields.io/static/v1?label=Coverage&message=95%&color=green)
 ![](https://img.shields.io/static/v1?label=Test&message=0%&color=red)
 ![](https://img.shields.io/static/v1?label=Documentation&message=95%&color=success)
 ![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
