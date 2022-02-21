@@ -8,9 +8,9 @@
 
 ![](https://img.shields.io/static/v1?label=Latest&message=0.1.0&color=blue)
 ![](https://img.shields.io/static/v1?label=Coverage&message=95%&color=green)
-<!-- ![](https://img.shields.io/static/v1?label=Test&message=0%&color=red) -->
 ![](https://img.shields.io/static/v1?label=Documentation&message=95%&color=success)
 ![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
+<!-- ![](https://img.shields.io/static/v1?label=Test&message=0%&color=red) -->
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
 
