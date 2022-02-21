@@ -76,7 +76,7 @@ You can checkout the official doc [here](https://docs.ksqldb.io/en/latest/concep
 
 ### Push Query
 
-`Push queries` enable you to query a stream or materialized table with a subscription to the results. 
+`Push` queries enable you to query a stream or materialized table with a subscription to the results. 
 They run asynchronously and you can spot them as they usually (should we say always?) include the `EMIT` keyword at the end of the SQL statement.
 
 The gem allows you to create a `ksqlDB Push query` connection through the `query_stream` method:
@@ -126,7 +126,7 @@ stream.close
 
 ### Pull Query
 
-`Pull queries` are the most "traditional" ones, they run synchronously and they can be executed with the `query` method"
+`Pull` queries are the most "traditional" ones, they run synchronously and they can be executed with the `query` method"
 
 ```Ruby
 locations = Ksql::Client.query("SELECT * FROM riderLocations;")
@@ -149,13 +149,17 @@ locations.count
 
 ## Close Query
 
-In case you need to close a `Persistent Query` you can do so with the `close_query` method, passing the Query ID:
+In case you need to close a `Persistent` Query you can do so with the `close_query` method, passing the Query ID:
 
 ```Ruby
 Ksql::Client.close_query("CTAS_RIDERSNEARMOUNTAINVIEW_5")
 ```
 
-**WARNING:** There's a known issue here, read below
+**WARNING:** There's a known issue here, read [below](#ksqldb-close-query).
+
+## Examples
+
+You can find some implementation examples [here](https://github.com/LapoElisacci/ksql/tree/main/examples).
 
 ## Supported ksqlDB versions
 
