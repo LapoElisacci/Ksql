@@ -7,11 +7,12 @@ module Ksql
       # Execute a close-query request on ksqlDB
       #
       # @param [String] id Query ID
+      # @param [Hash] headers Additional HTTP2 Request Headers
       #
       # @return [Ksql::Error] ksqlDB Error "On wrong context or worker"
       #
-      def close_query(id)
-        response = Ksql::Api::CloseQuery.new.call(id)
+      def close_query(id, headers: {})
+        response = Ksql::Api::CloseQuery.new.call(id, headers: headers)
         return Ksql::Error.new(response.body) if response.error?
 
         # TODO ksqlDB /close-query always return an error "On wrong context or worker"
@@ -21,16 +22,16 @@ module Ksql
       #
       # Execute a statement on ksqlDB '/ksql' endpoint
       #
-      # @param [String] ksql Query String
-      # @param [Hash] options Request optional arguments
-      # @option properties [Hash] :streamsProperties Property overrides to run the statements with
-      # @option properties [Hash] :sessionVariables Variable substitution values
-      # @option properties [Integer] :commandSequenceNumber The statements will not be run until all existing commands up to and including the specified sequence number have completed.
+      # @param [String] ksql Query Statement String
+      # @param [Integer] command_sequence_number If specified, the statements will not be run until all existing commands up to and including the specified sequence number have completed
+      # @param [Hash] headers Additional HTTP2 Request Headers
+      # @param [Hash] session_variables Variable substitution values
+      # @param [Hash] streams_properties Property overrides to run the statements with.
       #
       # @return [Ksql::OpenStruct] Statement result
       #
-      def ksql(ksql, options: {})
-        response = Ksql::Api::Ksql.new.call(ksql, **options)
+      def ksql(ksql, command_sequence_number: nil, headers: {}, session_variables: {}, streams_properties: {})
+        response = Ksql::Api::Ksql.new.call(ksql, command_sequence_number: command_sequence_number, headers: headers, session_variables: session_variables, streams_properties: streams_properties)
         return Ksql::Error.new(response.body) if response.error?
         return response.body unless response.body.present?
 
@@ -44,12 +45,13 @@ module Ksql
       # Execute a query on ksqlDB '/query-stream' endpoint
       #
       # @param [String] sql Query String
+      # @param [Hash] headers Additional HTTP2 Request Headers
       # @param [Hash] properties Query optional properties
       #
       # @return [Ksql::Collection] Query result collection
       #
-      def query(sql, properties: {})
-        response = Ksql::Api::QueryStream.new.call(sql, properties: properties)
+      def query(sql, headers: {}, properties: {})
+        response = Ksql::Api::QueryStream.new.call(sql, headers: headers, properties: properties)
         return Ksql::Error.new(response.body) if response.error?
 
         parsed_body = response.body
@@ -61,13 +63,14 @@ module Ksql
       # Prepare a Stream query connection
       #
       # @param [String] sql SQL Query Statement
+      # @param [Hash] headers Additional HTTP2 Request Headers
       # @param [Hash] properties Statement optional properties
       #
       # @return [Ksql::Stream] Prepared Stream Query
       #
-      def query_stream(sql, properties: {})
+      def query_stream(sql, headers: {}, properties: {})
         api = Ksql::Api::QueryStream.new
-        request = api.prepare_request(sql, properties: properties)
+        request = api.prepare_request(sql, headers: headers, properties: properties)
 
         Ksql::Stream.new(api, request)
       end

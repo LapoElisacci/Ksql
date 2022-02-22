@@ -9,14 +9,16 @@ module Ksql
       # Perform a Sync request to /close-query endpoint
       #
       # @param [String] id Query ID
+      # @param [Hash] headers Additional HTTP2 Request Headers
       #
       # @return [Ksql::Response] Request response
       #
-      def call(id)
+      def call(id, headers: {})
         super(
           body: {
             queryId: id
-          }
+          },
+          headers: headers
         )
       end
     end

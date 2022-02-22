@@ -9,16 +9,18 @@ module Ksql
       # Perform a Sync request to /query-stream endpoint
       #
       # @param [String] ksql SQL String
+      # @param [Hash] headers Query optional properties
       # @param [Hash] properties Query optional properties
       #
       # @return [Ksql::Response] Request response
       #
-      def call(sql, properties: {})
+      def call(sql, headers: {}, properties: {})
         super(
           body: {
             sql: sql,
             properties: properties
-          }.compact
+          }.compact,
+          headers: headers
         )
       end
 
@@ -26,16 +28,18 @@ module Ksql
       # Prepare an Async request to /query-stream endpoint
       #
       # @param [String] ksql SQL String
+      # @param [Hash] headers Additional HTTP2 Request Headers
       # @param [Hash] properties Query optional properties
       #
       # @return [NetHttp2::Request] Async prepared request
       #
-      def prepare_request(sql, properties: {})
+      def prepare_request(sql, headers: {}, properties: {})
         super(
           body: {
             sql: sql,
             properties: properties
-          }.compact
+          }.compact,
+          headers: headers
         )
       end
     end
