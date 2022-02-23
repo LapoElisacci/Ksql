@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# TODO DOC
-
 module Ksql
   class StreamError < StandardError; end
 
@@ -13,20 +11,42 @@ module Ksql
       @request = request
     end
 
+    #
+    # Close the streaming connection
+    #
     def close
-      raise StreamError.new('Stream ID hasn\'t been assigned yet, the stream may not be open.') unless @id.present?
+      raise StreamError.new('The stream hasn\'t stared!') unless @id.present?
 
       @client.close
     end
 
+    #
+    # Specify the action to take when the Streaming connection gets closed.
+    #
+    # @param [Block] &block Code to execute on connection closure
+    #
     def on_close(&block)
       @client.on(:close) { |e| yield(e) }
     end
 
+    #
+    # Specify the action to take when the Streaming connection raises an error.
+    #
+    # @param [Block] &block Code to execute when connection errors occur
+    #
     def on_error(&block)
       @client.on(:error) { |e| yield(e) }
     end
 
+    #
+    # Streaming connection handler
+    #
+    # * Start the stream
+    # * Wrap the stream events into OpenStruct instances
+    # * Execute the passed block 
+    #
+    # @param [Block] &block Code to execute each time an event arrives
+    #
     def start(&block)
       @headers = {}
 
@@ -53,6 +73,13 @@ module Ksql
 
     private
 
+      #
+      # Define a Struct class to fit the streaming data into.
+      #
+      # @param [Hash] event_schema Query schema
+      #
+      # @return [Ksql::Row] Stream event class
+      #
       def build_event_class(event_schema)
         @id = event_schema['queryId']
         row_const = "Stream#{schema['queryId'].gsub('-', '_')}Row"

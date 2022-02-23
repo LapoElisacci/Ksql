@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# TODO DOC
-
 module Ksql
   module Handlers
     class Stream
