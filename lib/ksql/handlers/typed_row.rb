@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
-# TODO DOC
-
 module Ksql
   module Handlers
     class TypedRow
+      #
+      # Define and instanciate an OpenStruct to fit the typed request response
+      #
+      # @param [Ksql::Connection::Response] response HTTP2 Request response
+      #
+      # @return [Ksql::@type] OpenStruct instance
+      #
       def self.handle(response)
         return Ksql::Error.new(response.body) if response.error?
         return response.body unless response.body.present?
