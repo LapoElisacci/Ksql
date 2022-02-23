@@ -48,8 +48,11 @@ The gem requires a minimum configuration to connect to ksqlDB, it is shipped wit
 ```Ruby
 Ksql.configure do |config|
   config.host = 'http://localhost:8088' # Required
+  # config.auth = 'user:password' # optional
 end
 ```
+
+**The Client supports Basic Authentication only.**
 
 ### Statements
 
@@ -63,6 +66,18 @@ Ksql::Client.ksql("SHOW TABLES;")
 Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude) VALUES ('18f4ea86', 37.3903, -122.0643);")
 ```
 
+You can also pass optional `properties` to the method (You can find all details [here](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/#json-parameters)).
+
+```Ruby
+Ksql::Client.ksql("INSERT INTO ...", command_sequence_number: 42, streams_properties: { ... }, session_variables: { ... })
+```
+
+As well as custom `HTTP Headers`.
+
+```Ruby
+Ksql::Client.ksql("INSERT INTO ...", headers: { ... })
+```
+
 ## Queries
 
 ksqlDB has three kinds of Queries (more details [here](https://docs.ksqldb.io/en/latest/concepts/queries/)).
@@ -73,7 +88,15 @@ ksqlDB has three kinds of Queries (more details [here](https://docs.ksqldb.io/en
 
 You can checkout the official doc [here](https://docs.ksqldb.io/en/latest/concepts/queries/#persistent)
 
-### Push Query
+In case you need to close a `Persistent` Query you can do so with the `close_query` method, passing the Query ID:
+
+```Ruby
+Ksql::Client.close_query("CTAS_RIDERSNEARMOUNTAINVIEW_5")
+```
+
+**WARNING:** There's a known issue here, read [below](#ksqldb-close-query).
+
+### Push Query 
 
 `Push` queries enable you to query a stream or materialized table with a subscription to the results. 
 They run asynchronously and you can spot them as they usually (should we say always?) include the `EMIT` keyword at the end of the SQL statement.
@@ -96,8 +119,6 @@ end
 
 The block gets executed inside a separated Thread.
 You can close the connection by calling the `close` method:
-
-**WARNING:** This interrupts the connection between ksqlDB and the client.
 
 ```Ruby
 stream.close
@@ -123,6 +144,13 @@ sleep(10)
 stream.close
 ```
 
+You can also specify custom `Properties` as well as `HTTP Headers`
+
+```Ruby
+stream = Ksql::Client.query_stream("SELECT * FROM riderLocations EMIT CHANGES;", headers: { ... }, properties: { ... })
+# ...
+```
+
 ### Pull Query
 
 `Pull` queries are the most "traditional" ones, they run synchronously and they can be executed with the `query` method"
@@ -145,16 +173,6 @@ end
 
 locations.count
 ```
-
-## Close Query
-
-In case you need to close a `Persistent` Query you can do so with the `close_query` method, passing the Query ID:
-
-```Ruby
-Ksql::Client.close_query("CTAS_RIDERSNEARMOUNTAINVIEW_5")
-```
-
-**WARNING:** There's a known issue here, read [below](#ksqldb-close-query).
 
 ## Examples
 

@@ -1,57 +1,48 @@
 # frozen_string_literal: true
 
-require 'hashie/mash'
+# TODO DOC
 
 module Ksql
   class StreamError < StandardError; end
 
   class Stream
-    attr_reader :id
+    attr_reader :event_class
 
-    def initialize(api, request)
-      @client = api.client
-      @id = nil
+    def initialize(client, request)
+      @client = client
       @request = request
-      @struct = nil
     end
 
-    #
-    # Close the Stream connection if opened
-    #
-    # @return [Hash] {}
-    #
     def close
-      raise Ksql::StreamError.new('Stream not running.') unless @id.present?
+      raise StreamError.new('Stream ID hasn\'t been assigned yet, the stream may not be open.') unless @id.present?
 
       @client.close
     end
 
-    #
-    # Start the Query Stream and execute the passed block
-    #
-    # @param [Block] &block Block to be executed on each event
-    #
-    # @return [NilClass] Nil
-    #
+    def on_close(&block)
+      @client.on(:close) { |e| yield(e) }
+    end
+
+    def on_error(&block)
+      @client.on(:error) { |e| yield(e) }
+    end
+
     def start(&block)
       @headers = {}
 
-      @request.on(:headers) do |head|
-        @headers = head
-      end
+      @request.on(:headers) { |headers| @headers = headers }
 
-      @request.on(:body_chunk) do |chunk|
-        next unless chunk.present?
+      @request.on(:body_chunk) do |body|
+        next unless body.present?
 
-        response = Ksql::Response.new(::Hashie::Mash.new(headers: @headers, body: chunk))
+        response = Ksql::Http::Response.new(body: body, headers: @headers)
+        raise Ksql::StreamError.new(response.body['message']) if response.error?
 
-        if response.error?
-          raise Ksql::StreamError.new(response.body['message'])
-        elsif response.body.is_a? Hash
-          prepare_struct(response.body)
+        if response.body.is_a? Hash
+          @event_class = build_event_class(response.body)
           next
         else
-          event = @klass.new(*response.body)
+          event = @event_class.new(*response.body)
         end
 
         yield(event)
@@ -62,16 +53,10 @@ module Ksql
 
     private
 
-      #
-      # * Attatch the Stream query ID
-      # * Define the Struct to fit the event data
-      #
-      # @param [Hash] schema Stream event struct schema
-      #
-      def prepare_struct(schema)
-        @id = schema['queryId']
+      def build_event_class(event_schema)
+        @id = event_schema['queryId']
         row_const = "Stream#{schema['queryId'].gsub('-', '_')}Row"
-        @klass = Ksql.const_defined?(row_const) ? "Ksql::#{row_const}".constantize : Ksql.const_set(row_const, Class.new(Struct.new(*schema['columnNames'].map { |c| c.downcase.to_sym })))
+        Ksql.const_defined?(row_const) ? "Ksql::#{row_const}".constantize : Ksql.const_set(row_const, Class.new(Struct.new(*schema['columnNames'].map { |c| c.downcase.to_sym })))
       end
   end
 end
