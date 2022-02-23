@@ -28,7 +28,7 @@ Ksql::Client.ksql("CREATE TABLE ridersNearMountainView AS
 
 # * Run a push query over the stream
 
-stream = Ksql::Client.query_stream("SELECT * FROM riderLocations WHERE GEO_DISTANCE(latitude, longitude, 37.4133, -122.1162) <= 5 EMIT CHANGES;")
+stream = Ksql::Client.stream('SELECT * FROM riderLocations WHERE GEO_DISTANCE(latitude, longitude, 37.4133, -122.1162) <= 5 EMIT CHANGES;')
 
 stream.start do |location|
   # do something
@@ -47,12 +47,12 @@ Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude) V
 
 # * Run a Pull query against the materialized view
 
-Ksql::Client.query("SELECT * from ridersNearMountainView WHERE distanceInMiles <= 10;")
+Ksql::Client.query('SELECT * from ridersNearMountainView WHERE distanceInMiles <= 10;')
 
 # * Clean up ksqlDB
 
 stream.close
 
-Ksql::Client.ksql("DROP TABLE IF EXISTS ridersNearMountainView;")
-Ksql::Client.ksql("DROP TABLE IF EXISTS currentLocation;")
-Ksql::Client.ksql("DROP STREAM IF EXISTS riderLocations;")
+Ksql::Client.ksql('DROP TABLE IF EXISTS ridersNearMountainView;')
+Ksql::Client.ksql('DROP TABLE IF EXISTS currentLocation;')
+Ksql::Client.ksql('DROP STREAM IF EXISTS riderLocations;')
