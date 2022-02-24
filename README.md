@@ -6,7 +6,6 @@
 ![](https://img.shields.io/static/v1?label=Coverage&message=95%&color=green)
 ![](https://img.shields.io/static/v1?label=Documentation&message=98%&color=success)
 ![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
-<!-- ![](https://img.shields.io/static/v1?label=Test&message=0%&color=red) -->
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
 
@@ -32,7 +31,8 @@ Or install it yourself as:
 
 ## Usage
 
-KSQL allows you to perform Queries / Statements requests to ksqlDB REST API. 
+The gem allows you to perform requests to ksqlDB REST API.
+Checkout the ksqlDB official documentation [here](https://docs.ksqldb.io/en/latest/developer-guide/api/).
 
 ### Configuration
 
@@ -48,11 +48,11 @@ Ksql.configure do |config|
 end
 ```
 
-**The Client supports Basic Authentication only.**
+**The Client supports Basic Authentication only**
 
-### Statements
+### [Statements](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)
 
-All statements, except those starting with `SELECT` ([ksqlDB API Documentation](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)), can be run with the `ksql` method:
+All statements, except those starting with `SELECT` can be run with the `ksql` method:
 
 ```Ruby
 Ksql::Client.ksql("SHOW TABLES;")
@@ -62,29 +62,27 @@ Ksql::Client.ksql("SHOW TABLES;")
 Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude) VALUES ('18f4ea86', 37.3903, -122.0643);")
 ```
 
-You can also pass optional `properties` to the method (You can find all details [here](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/#json-parameters)).
+You can also pass optional `properties` to the method (Check the official documentation if needed).
 
 ```Ruby
 Ksql::Client.ksql("INSERT INTO ...", command_sequence_number: 42, streams_properties: { ... }, session_variables: { ... })
 ```
 
-As well as custom `HTTP Headers`.
+As well as custom `Headers`.
 
 ```Ruby
 Ksql::Client.ksql("INSERT INTO ...", headers: { ... })
 ```
 
-## Queries
+## [Queries](https://docs.ksqldb.io/en/latest/concepts/queries)
 
-ksqlDB has three kinds of Queries (more details [here](https://docs.ksqldb.io/en/latest/concepts/queries/)).
+ksqlDB has three kinds of Queries:
 
-### Persistent Query
+### [Persistent Query](https://docs.ksqldb.io/en/latest/concepts/queries/#persistent)
 
 `Persistent queries` are server-side queries and there's nothing much to say here.
 
-You can checkout the official doc [here](https://docs.ksqldb.io/en/latest/concepts/queries/#persistent)
-
-In case you need to close a `Persistent` Query you can do so with the `close_query` method, passing the Query ID:
+In case you want to close a `Persistent` Query you can do so with the `close_query` method, passing the Query ID:
 
 ```Ruby
 Ksql::Client.close_query("CTAS_RIDERSNEARMOUNTAINVIEW_5")
@@ -92,18 +90,34 @@ Ksql::Client.close_query("CTAS_RIDERSNEARMOUNTAINVIEW_5")
 
 **WARNING:** There's a known issue here, read [below](#ksqldb-close-query).
 
-### Push Query 
+### [Push Query](https://docs.ksqldb.io/en/latest/concepts/queries/#push)
 
 `Push` queries enable you to query a stream or materialized table with a subscription to the results. 
-They run asynchronously and you can spot them as they usually (should we say always?) include the `EMIT` keyword at the end of the SQL statement.
+They run asynchronously and you can spot them as they include the `EMIT` keyword at the end of the SQL statement.
 
-The gem allows you to create a `ksqlDB Push query` connection through the `query_stream` method:
+To define a `Push` query connection simply call the `stream` method:
 
 ```Ruby
-stream = Ksql::Client.query_stream("SELECT * FROM riderLocations EMIT CHANGES;")
+stream = Ksql::Client.stream("SELECT * FROM riderLocations EMIT CHANGES;")
 ```
 
-to subscribe the Stream, call the `start` method. It accepts a block that runs each time a result gets recieved:
+You can specify what action to take when an exception gets raised:
+
+```Ruby
+stream.on_error do |e|
+  puts e.message
+end
+```
+
+or what to do when the connection gets closed:
+
+```Ruby
+stream.on_close do
+  puts 'Session closed!'
+end
+```
+
+To start the stream, call the `start` method, It accepts a block to execute each time a message gets recieved:
 
 ```Ruby
 stream.start do |location|
@@ -113,7 +127,8 @@ stream.start do |location|
 end
 ```
 
-The block gets executed inside a separated Thread.
+**CAREFUL:** The block gets executed inside a separated Thread, make sure your code is thread safe!
+
 You can close the connection by calling the `close` method:
 
 ```Ruby
@@ -124,7 +139,7 @@ Example:
 
 ```Ruby
 # Define the Stream
-stream = Ksql::Client.query_stream("SELECT * FROM riderLocations EMIT CHANGES;")
+stream = Ksql::Client.stream("SELECT * FROM riderLocations EMIT CHANGES;")
 
 # Start the connection
 stream.start do |location|
@@ -133,21 +148,21 @@ stream.start do |location|
   puts location.longitude
 end
 
-# The code flow goes on
+# Do something
 sleep(10)
 
 # Close the connection
 stream.close
 ```
 
-You can also specify custom `Properties` as well as `HTTP Headers`
+You can also specify custom `Properties` as well as `Headers` and `Session Variables`:
 
 ```Ruby
-stream = Ksql::Client.query_stream("SELECT * FROM riderLocations EMIT CHANGES;", headers: { ... }, properties: { ... })
+stream = Ksql::Client.stream("SELECT * FROM riderLocations EMIT CHANGES;", headers: { ... }, properties: { ... }, session_variables: { ... })
 # ...
 ```
 
-### Pull Query
+### [Pull Query](https://docs.ksqldb.io/en/latest/concepts/queries/#push)
 
 `Pull` queries are the most "traditional" ones, they run synchronously and they can be executed with the `query` method"
 
@@ -170,9 +185,98 @@ end
 locations.count
 ```
 
-## Examples
+## Example
 
-You can find some implementation examples [here](https://github.com/LapoElisacci/ksql/tree/main/examples).
+The following example is from the official ksqlDB [Quickstart](https://ksqldb.io/quickstart.html):
+
+```Ruby
+require 'ksql'
+require 'logger'
+
+logger = Logger.new(STDOUT)
+logger.level = Logger::INFO
+
+# Create a stream
+
+Ksql::Client.ksql("CREATE STREAM riderLocations (profileId VARCHAR, latitude DOUBLE, longitude DOUBLE)
+  WITH (kafka_topic='locations', value_format='json', partitions=1);")
+
+# Create materialized views
+
+Ksql::Client.ksql("CREATE TABLE currentLocation AS
+  SELECT profileId,
+         LATEST_BY_OFFSET(latitude) AS la,
+         LATEST_BY_OFFSET(longitude) AS lo
+  FROM riderlocations
+  GROUP BY profileId
+  EMIT CHANGES;")
+
+# Create materialized views
+
+Ksql::Client.ksql("CREATE TABLE ridersNearMountainView AS
+  SELECT ROUND(GEO_DISTANCE(la, lo, 37.4133, -122.1162), -1) AS distanceInMiles,
+         COLLECT_LIST(profileId) AS riders,
+         COUNT(*) AS count
+  FROM currentLocation
+  GROUP BY ROUND(GEO_DISTANCE(la, lo, 37.4133, -122.1162), -1);")
+
+# Run a push query over the stream
+
+stream = Ksql::Client.stream("SELECT * FROM riderLocations
+  WHERE GEO_DISTANCE(latitude, longitude, 37.4133, -122.1162) <= 5 EMIT CHANGES;")
+
+# Handle exceptions
+
+stream.on_error do |e|
+  logger.error(e.message)
+end
+
+# Handle stream close
+
+stream.on_close do
+  logger.info("Stream closed!")
+end
+
+# Start the stream
+
+stream.start do |location|
+  # Print the result into a file
+  File.open('output.log', 'a') do |f|
+    f.puts "Latitude: #{location.latitude}, Longitude: #{location.longitude}"
+  end
+end
+
+# Populate the stream with events
+
+Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude)
+  VALUES ('c2309eec', 37.7877, -122.4205);")
+Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude)
+  VALUES ('18f4ea86', 37.3903, -122.0643);")
+Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude)
+  VALUES ('4ab5cbad', 37.3952, -122.0813);")
+Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude)
+  VALUES ('8b6eae59', 37.3944, -122.0813);")
+Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude)
+  VALUES ('4a7c7b41', 37.4049, -122.0822);")
+Ksql::Client.ksql("INSERT INTO riderLocations (profileId, latitude, longitude)
+  VALUES ('4ddad000', 37.7857, -122.4011);")
+
+# Run a Pull query against the materialized view
+
+locations = Ksql::Client.query("SELECT * from ridersNearMountainView
+  WHERE distanceInMiles <= 10;")
+
+# Close the stream
+
+stream.close
+
+# Drop
+
+Ksql::Client.ksql('DROP TABLE IF EXISTS ridersNearMountainView;')
+Ksql::Client.ksql('DROP TABLE IF EXISTS currentLocation;')
+Ksql::Client.ksql('DROP STREAM IF EXISTS riderLocations;')
+
+```
 
 ## Supported ksqlDB versions
 
@@ -185,17 +289,7 @@ You can find some implementation examples [here](https://github.com/LapoElisacci
 | 0.19.0 | :heavy_check_mark: Supported |
 | 0.18.0 | :heavy_check_mark: Supported |
 | 0.17.0 | :x: Untested |
-| 0.15.0 | :x: Untested |
-| 0.14.0 | :x: Untested |
-| 0.13.0 | :x: Untested |
-| 0.12.0 | :x: Untested |
-| 0.11.0 | :x: Untested |
-| 0.10.2 | :x: Untested |
-| 0.10.1 | :x: Untested |
-| 0.10.0 | :x: Untested |
-| 0.9.0 | :x: Unsupported |
-| 0.8.1 | :x: Unsupported |
-| 0.7.1 | :x: Unsupported |
+| Older | :x: Untested |
 
 ## Known issues
 
@@ -204,26 +298,13 @@ You can find some implementation examples [here](https://github.com/LapoElisacci
 Although it actually works, at the moment, the latest release of ksqlDB returns an error each time you request the `/close-query` endpoint.
 Therefore the query will correctly get closed but an error will get returned anyways.
 
-ksqlDB Issue [here](https://github.com/confluentinc/ksql/issues/8251).
+Official issue [here](https://github.com/confluentinc/ksql/issues/8251).
 
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `bundle exec rspec spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 Make sure you have a working instance of ksqlDB, you can find the official quickstart [here](https://ksqldb.io/quickstart.html).
-
-Each branch must come along with relative Issues and Pull Request.
-
-Please follow the branch naming convention:
-
-1. New feature: `master_dev/#ISSUEID_short_description`
-2. Bugfix: `hotfix/#ISSUEID_short_description`
-
-Example:
-
-`master_dev/1_tests`
-
-`hotfix/2_handle_errors`
 
 ## Contributing
 

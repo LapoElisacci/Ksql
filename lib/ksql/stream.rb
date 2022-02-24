@@ -26,7 +26,7 @@ module Ksql
     # @param [Block] &block Code to execute on connection closure
     #
     def on_close(&block)
-      @client.on(:close) { |e| yield(e) }
+      @client.on(:close) { yield }
     end
 
     #
