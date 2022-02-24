@@ -1,10 +1,6 @@
 ![][ruby-shield]
 
-<p align="center">
-  <img width="180" src="https://user-images.githubusercontent.com/50866745/147449973-a743b690-fef4-4b97-86d3-cc01f1695118.png" >
-</p>
-
-# Ruby KSQL (Under development)
+# ![ksql-rocket](https://user-images.githubusercontent.com/50866745/155471557-6fe01746-444f-4ff6-a164-eeeb3b4b53a1.png) Ruby ksqlDB Client (Under development)
 
 ![](https://img.shields.io/static/v1?label=Latest&message=0.1.0&color=blue)
 ![](https://img.shields.io/static/v1?label=Coverage&message=95%&color=green)
