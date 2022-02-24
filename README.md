@@ -82,7 +82,7 @@ Ksql::Client.ksql("INSERT INTO ...", headers: { ... })
 
 ksqlDB has three kinds of Queries (more details [here](https://docs.ksqldb.io/en/latest/concepts/queries/)).
 
-### Persisten Query
+### Persistent Query
 
 `Persistent queries` are server-side queries and there's nothing much to say here.
 

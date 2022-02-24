@@ -31,9 +31,9 @@ Ksql::Client.ksql("CREATE TABLE ridersNearMountainView AS
 stream = Ksql::Client.stream('SELECT * FROM riderLocations WHERE GEO_DISTANCE(latitude, longitude, 37.4133, -122.1162) <= 5 EMIT CHANGES;')
 
 stream.start do |location|
-  # do something
-  puts location.latitude
-  puts location.longitude
+  File.open('output.log', 'a') do |f|
+    f.write("Latitude: #{location.latitude}, Longitude: #{location.longitude}")
+  end
 end
 
 # * Populate the stream with events

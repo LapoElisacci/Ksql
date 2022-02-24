@@ -12,5 +12,6 @@
 .DS_Store
 .rspec_status
 .stignore
-*.yml
+*.log
 *.gem
+*.yml

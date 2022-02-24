@@ -4,7 +4,7 @@ module Ksql
   class StreamError < StandardError; end
 
   class Stream
-    attr_reader :event_class
+    attr_reader :id
 
     def initialize(client, request)
       @client = client
@@ -43,7 +43,7 @@ module Ksql
     #
     # * Start the stream
     # * Wrap the stream events into OpenStruct instances
-    # * Execute the passed block 
+    # * Execute the passed block
     #
     # @param [Block] &block Code to execute each time an event arrives
     #
@@ -55,7 +55,7 @@ module Ksql
       @request.on(:body_chunk) do |body|
         next unless body.present?
 
-        response = Ksql::Http::Response.new(body: body, headers: @headers)
+        response = Ksql::Connection::Response.new(body: body, headers: @headers)
         raise Ksql::StreamError.new(response.body['message']) if response.error?
 
         if response.body.is_a? Hash
@@ -76,12 +76,12 @@ module Ksql
       #
       # Define a Struct class to fit the streaming data into.
       #
-      # @param [Hash] event_schema Query schema
+      # @param [Hash] schema Query schema
       #
       # @return [Ksql::Row] Stream event class
       #
-      def build_event_class(event_schema)
-        @id = event_schema['queryId']
+      def build_event_class(schema)
+        @id = schema['queryId']
         row_const = "Stream#{schema['queryId'].gsub('-', '_')}Row"
         Ksql.const_defined?(row_const) ? "Ksql::#{row_const}".constantize : Ksql.const_set(row_const, Class.new(Struct.new(*schema['columnNames'].map { |c| c.downcase.to_sym })))
       end

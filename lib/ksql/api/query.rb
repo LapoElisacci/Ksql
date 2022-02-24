@@ -23,7 +23,7 @@ module Ksql
             sessionVariables: session_variables
           }.compact,
           '/query-stream',
-          self.class::Headers.merge(headers),
+          self::Headers.merge(headers),
           :post
         )
       end
