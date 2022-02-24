@@ -2,22 +2,31 @@
 
 module Ksql
   module Api
-    class Ksql < Base
-      ENDPOINT = '/ksql'.freeze
+    class Ksql
+      Headers = { 'Accept' => 'application/json' }.freeze
 
       #
-      # Perform a Sync request to /ksql endpoint
+      # Build the ksqlDB /ksql request
       #
-      # @param [String] ksql SQL String
-      # @param [Hash] **options SQL Statement options
+      # @param [String] ksql SQL Statement
+      # @param [Integer] command_sequence_number The statements will not be run until all existing commands have completed.
+      # @param [Hash] headers Request headers
+      # @param [Hash] session_variables Variable substitution values
+      # @param [Hash] streams_properties Property overrides to run the statements with
       #
-      # @return [Ksql::Response] Request response
+      # @return [Ksql::Connection::Request] Request instance
       #
-      def call(ksql, **options)
-        super(
-          body: {
-            ksql: ksql
-          }.merge(options).compact
+      def self.build(ksql, command_sequence_number:, headers:, session_variables:, streams_properties:)
+        ::Ksql::Connection::Request.new(
+          {
+            ksql: ksql,
+            commandSequenceNumber: command_sequence_number,
+            sessionVariables: session_variables,
+            streamsProperties: streams_properties,
+          }.compact,
+          '/ksql',
+          Headers.merge(headers),
+          :post
         )
       end
     end
