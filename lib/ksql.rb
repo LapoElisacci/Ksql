@@ -13,7 +13,7 @@ require_relative 'ksql/api/stream'
 require_relative 'ksql/handlers/collection'
 require_relative 'ksql/handlers/raw'
 require_relative 'ksql/handlers/stream'
-require_relative 'ksql/handlers/typed_row'
+require_relative 'ksql/handlers/typed_list'
 
 require_relative 'ksql/connection/client'
 require_relative 'ksql/connection/request'
@@ -28,11 +28,18 @@ require_relative 'ksql/stream'
 require_relative 'ksql/version'
 
 module Ksql
-  def self.config
-    @config ||= Ksql::Configuration.new
-  end
+  class << self
+    attr_accessor :config
 
-  def self.configure
-    yield(config)
+    #
+    # Configure Ksql
+    #
+    # @return [Boolean] true
+    #
+    def configure
+      self.config = Ksql::Configuration.new
+      yield(config)
+      config.validate
+    end
   end
 end
