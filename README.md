@@ -1,10 +1,10 @@
 ![][ruby-shield]
 
-# ![ksql-rocket](https://user-images.githubusercontent.com/50866745/155471557-6fe01746-444f-4ff6-a164-eeeb3b4b53a1.png) Ruby ksqlDB Client (Under development)
+# ![ksql-rocket](https://user-images.githubusercontent.com/50866745/155471557-6fe01746-444f-4ff6-a164-eeeb3b4b53a1.png) Ruby ksqlDB Client (Beta / Under QA)
 
-![](https://img.shields.io/static/v1?label=Latest&message=0.1.0&color=blue)
-![](https://img.shields.io/static/v1?label=Coverage&message=95%&color=green)
-![](https://img.shields.io/static/v1?label=Documentation&message=98%&color=success)
+![](https://img.shields.io/static/v1?label=Latest&message=0.1.0.beta&color=blue)
+![](https://img.shields.io/static/v1?label=Coverage&message=98%&color=green)
+![](https://img.shields.io/static/v1?label=Documentation&message=99%&color=success)
 ![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
