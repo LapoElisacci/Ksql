@@ -1,11 +1,7 @@
-![][ruby-shield]
+# <img src="https://user-images.githubusercontent.com/50866745/155471557-6fe01746-444f-4ff6-a164-eeeb3b4b53a1.png" width="73"> ksqlDB Client
 
-# ![ksql-rocket](https://user-images.githubusercontent.com/50866745/155471557-6fe01746-444f-4ff6-a164-eeeb3b4b53a1.png) Ruby ksqlDB Client (Beta / Under QA)
-
+![](https://img.shields.io/static/v1?label=Language&message=Ruby&color=red)
 ![](https://img.shields.io/static/v1?label=Latest&message=0.1.0.beta&color=blue)
-![](https://img.shields.io/static/v1?label=Coverage&message=98%&color=green)
-![](https://img.shields.io/static/v1?label=Documentation&message=99%&color=success)
-![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
 
@@ -313,7 +309,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/LapoEl
 ## License
 
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](https://opensource.org/licenses/MIT)
-
-<!--- MARKDOWN LINKS --->
-
-[ruby-shield]: https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white
