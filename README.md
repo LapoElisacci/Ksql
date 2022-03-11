@@ -8,6 +8,11 @@ KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. 
 
 ksqlDB is a database purpose-built for [Apache Kafka®](https://kafka.apache.org/) streams processing applications, more details [here](https://ksqldb.io/).
 
+**Official KLIP:**
+
+- https://github.com/confluentinc/ksql/pull/8794
+- https://github.com/confluentinc/ksql/pull/8865 
+
 ## Installation
 
 Add this line to your application's Gemfile:
