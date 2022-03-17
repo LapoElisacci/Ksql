@@ -6,9 +6,12 @@ require 'json'
 require 'ostruct'
 
 require_relative 'ksql/api/close_query'
+require_relative 'ksql/api/health_check'
+require_relative 'ksql/api/info'
 require_relative 'ksql/api/ksql'
 require_relative 'ksql/api/query'
 require_relative 'ksql/api/stream'
+require_relative 'ksql/api/terminate'
 
 require_relative 'ksql/handlers/collection'
 require_relative 'ksql/handlers/raw'

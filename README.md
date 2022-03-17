@@ -44,11 +44,8 @@ The gem requires a minimum configuration to connect to ksqlDB, it is shipped wit
 ```Ruby
 Ksql.configure do |config|
   config.host = 'http://localhost:8088' # Required
-  # config.auth = 'user:password' # optional
 end
 ```
-
-**The Client supports Basic Authentication only**
 
 ### [Statements](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)
 
@@ -277,6 +274,47 @@ Ksql::Client.ksql('DROP TABLE IF EXISTS currentLocation;')
 Ksql::Client.ksql('DROP STREAM IF EXISTS riderLocations;')
 
 ```
+
+## [Cluster Status](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/cluster-status-endpoint/)
+
+The client allows you to introspect the cluster status with the `cluster_status` method.
+
+**Careful:** The `/clusterStatus` endpoint is not enabled by default, read more [here](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/cluster-status-endpoint/)
+
+```Ruby
+  Ksql::Client.cluster_status
+```
+
+## [Health Check](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/info-endpoint/)
+
+You can also check the health of your ksqlDB server by calling the `health_check` method.
+
+```Ruby
+  Ksql::Client.health_check
+```
+
+## [Info](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/info-endpoint/)
+
+To get information about the status of a ksqlDB Server call the `info` method.
+
+```Ruby
+  Ksql::Client.info
+```
+
+## [Terminate](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/terminate-endpoint/)
+
+You can terminate the cluster and clean up the resources calling the `terminate` method.
+
+```Ruby
+  Ksql::Client.terminate
+```
+
+You can provide a list of kafka topic names or regular expressions for Kafka topic names along to delete all topics with names that are in the list or that match any of the regular expressions in the list.
+
+```Ruby
+  Ksql::Client.terminate(delete_topic_list: ["FOO", "bar.*"])
+```
+
 
 ## Supported ksqlDB versions
 
