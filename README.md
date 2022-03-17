@@ -342,11 +342,6 @@ Ksql::Client.ksql('DROP STREAM IF EXISTS riderLocations;')
 | ------ | -- |
 | 0.23.1 | :heavy_check_mark: Supported |
 | 0.22.0 | :heavy_check_mark: Supported |
-| 0.21.0 | :heavy_check_mark: Supported |
-| 0.20.0 | :heavy_check_mark: Supported |
-| 0.19.0 | :heavy_check_mark: Supported |
-| 0.18.0 | :heavy_check_mark: Supported |
-| 0.17.0 | :x: Untested |
 | Older | :x: Untested |
 
 ## Known issues
