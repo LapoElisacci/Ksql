@@ -1,6 +1,6 @@
 ## <img src="https://user-images.githubusercontent.com/50866745/156314925-b823bfe2-a9d4-4b83-8376-29a6a659b57f.png" width="48"> ksqlDB Client  <!-- omit in toc -->
 ![](https://img.shields.io/static/v1?label=Language&message=Ruby&color=red)
-![](https://img.shields.io/static/v1?label=Latest&message=0.1.0.beta&color=blue)
+![](https://img.shields.io/static/v1?label=Latest&message=0.1.0.beta.1&color=blue)
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
 

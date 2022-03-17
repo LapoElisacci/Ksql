@@ -1,5 +1,14 @@
 ## [Releases]
 
+## [0.1.0.beta.1] - 2022-03-17
+
+### Added
+
+- `/clusterStatus` endpoint support
+- `/healthcheck` endpoint support
+- `/info` endpoint support
+- `/terminate` endpoint support
+
 ## [0.1.0.beta] - 2022-02-24
 
 - Beta release
