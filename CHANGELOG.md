@@ -1,5 +1,11 @@
 ## [Releases]
 
+## [0.1.0] - 2022-05-05
+
+### Fixed
+
+- Typo on Stream closing error message. ( Thanks to @ook )
+
 ## [0.1.0.beta.1] - 2022-03-17
 
 ### Added
