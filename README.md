@@ -2,6 +2,7 @@
 ![](https://img.shields.io/static/v1?label=Language&message=Ruby&color=red)
 ![](https://img.shields.io/static/v1?label=Latest&message=0.1.1&color=blue)
 ![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)
+![](https://ruby-gem-downloads-badge.herokuapp.com/ksql?type=total&color=green)
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
 
