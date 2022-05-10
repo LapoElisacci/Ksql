@@ -3,10 +3,8 @@
 require 'ksql'
 
 Ksql.configure do |config|
-  config.host = 'http://localhost:8088'
+  config.host = ENV['KSQLDB_HOST'] || 'localhost:8088'
 end
-
-require 'byebug'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
