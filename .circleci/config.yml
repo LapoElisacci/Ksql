@@ -31,7 +31,8 @@ jobs:
           KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
           KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
     environment:
-      KSQLDB_HOST: localhost:808
+      CI: "true"
+      KSQLDB_HOST: localhost:8088
     steps:
       - checkout
       - run: bundle install -j $(nproc)
