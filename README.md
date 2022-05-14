@@ -1,19 +1,22 @@
-![][ruby-shield]
-
-# ![ksql-rocket](https://user-images.githubusercontent.com/50866745/155471557-6fe01746-444f-4ff6-a164-eeeb3b4b53a1.png) Ruby ksqlDB Client (Beta / Under QA)
-
-![](https://img.shields.io/static/v1?label=Latest&message=0.1.0.beta&color=blue)
-![](https://img.shields.io/static/v1?label=Coverage&message=98%&color=green)
-![](https://img.shields.io/static/v1?label=Documentation&message=99%&color=success)
-![](https://img.shields.io/static/v1?label=Mantained?&message=Yes&color=success)
+## <img src="https://user-images.githubusercontent.com/50866745/156314925-b823bfe2-a9d4-4b83-8376-29a6a659b57f.png" width="48"> ksqlDB Client  <!-- omit in toc -->
+[![CircleCI](https://circleci.com/gh/LapoElisacci/Ksql/tree/main.svg?style=svg)](https://circleci.com/gh/LapoElisacci/Ksql/tree/main)
+![](https://img.shields.io/static/v1?label=Language&message=Ruby&color=red)
+![](https://img.shields.io/static/v1?label=Latest&message=0.1.1&color=blue)
+![](https://ruby-gem-downloads-badge.herokuapp.com/ksql?type=total&color=green)
+![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)
 
 KSQL is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
 
-## What is ksqlDB?
+## What is ksqlDB?  <!-- omit in toc -->
 
 ksqlDB is a database purpose-built for [Apache Kafka®](https://kafka.apache.org/) streams processing applications, more details [here](https://ksqldb.io/).
 
-## Installation
+**Official KLIP:**  <!-- omit in toc -->
+
+- https://github.com/confluentinc/ksql/pull/8794
+- https://github.com/confluentinc/ksql/pull/8865 
+
+## Installation  <!-- omit in toc -->
 
 Add this line to your application's Gemfile:
 
@@ -29,12 +32,32 @@ Or install it yourself as:
 
     $ gem install ksql
 
-## Usage
+## Usage  <!-- omit in toc -->
 
 The gem allows you to perform requests to ksqlDB REST API.
 Checkout the ksqlDB official documentation [here](https://docs.ksqldb.io/en/latest/developer-guide/api/).
 
-### Configuration
+## Table of contents <!-- omit in toc -->
+
+- [Configuration](#configuration)
+- [Statements](#statements)
+- [Queries](#queries)
+  - [Persistent Query](#persistent-query)
+  - [Push Query](#push-query)
+  - [Pull Query](#pull-query)
+- [Cluster Status](#cluster-status)
+- [Health Check](#health-check)
+- [Info](#info)
+- [Terminate](#terminate)
+- [Example](#example)
+- [Supported ksqlDB versions](#supported-ksqldb-versions)
+- [Known issues](#known-issues)
+  - [ksqlDB close-query](#ksqldb-close-query)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Configuration
 
 The gem requires a minimum configuration to connect to ksqlDB, it is shipped with a built-in generator to create a Rails initializer.
 
@@ -48,9 +71,7 @@ Ksql.configure do |config|
 end
 ```
 
-**The Client supports Basic Authentication only**
-
-### [Statements](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)
+## [Statements](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/ksql-endpoint/)
 
 All statements, except those starting with `SELECT` can be run with the `ksql` method:
 
@@ -185,6 +206,46 @@ end
 locations.count
 ```
 
+## [Cluster Status](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/cluster-status-endpoint/)
+
+The client allows you to introspect the cluster status with the `cluster_status` method.
+
+**Careful:** The `/clusterStatus` endpoint is not enabled by default, read more [here](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/cluster-status-endpoint/)
+
+```Ruby
+  Ksql::Client.cluster_status
+```
+
+## [Health Check](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/info-endpoint/)
+
+You can also check the health of your ksqlDB server by calling the `health_check` method.
+
+```Ruby
+  Ksql::Client.health_check
+```
+
+## [Info](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/info-endpoint/)
+
+To get information about the status of a ksqlDB Server call the `info` method.
+
+```Ruby
+  Ksql::Client.info
+```
+
+## [Terminate](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-rest-api/terminate-endpoint/)
+
+You can terminate the cluster and clean up the resources calling the `terminate` method.
+
+```Ruby
+  Ksql::Client.terminate
+```
+
+You can provide a list of kafka topic names or regular expressions for Kafka topic names along to delete all topics with names that are in the list or that match any of the regular expressions in the list.
+
+```Ruby
+  Ksql::Client.terminate(delete_topic_list: ["FOO", "bar.*"])
+```
+
 ## Example
 
 The following example is from the official ksqlDB [Quickstart](https://ksqldb.io/quickstart.html):
@@ -278,17 +339,15 @@ Ksql::Client.ksql('DROP STREAM IF EXISTS riderLocations;')
 
 ```
 
+
 ## Supported ksqlDB versions
 
 | Version |  |
 | ------ | -- |
-| 0.23.1 | :heavy_check_mark: Supported |
-| 0.22.0 | :heavy_check_mark: Supported |
-| 0.21.0 | :heavy_check_mark: Supported |
-| 0.20.0 | :heavy_check_mark: Supported |
-| 0.19.0 | :heavy_check_mark: Supported |
-| 0.18.0 | :heavy_check_mark: Supported |
-| 0.17.0 | :x: Untested |
+| 0.25 | :heavy_check_mark: Supported |
+| 0.24 | :heavy_check_mark: Supported |
+| 0.23 | :heavy_check_mark: Supported |
+| 0.22 | :heavy_check_mark: Supported |
 | Older | :x: Untested |
 
 ## Known issues
@@ -313,7 +372,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/LapoEl
 ## License
 
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](https://opensource.org/licenses/MIT)
-
-<!--- MARKDOWN LINKS --->
-
-[ruby-shield]: https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white

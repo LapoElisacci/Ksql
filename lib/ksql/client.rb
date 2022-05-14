@@ -18,6 +18,42 @@ module Ksql
       end
 
       #
+      # Request /clusterStatus endpoint synchronously
+      #
+      # @param [Hash] headers Request headers
+      #
+      # @return [JSON] Request response
+      #
+      def cluster_status(headers: {})
+        request = Api::ClusterStatus.build(headers: headers)
+        Connection::Client.call_sync(request)
+      end
+
+      #
+      # Request /healthcheck endpoint synchronously
+      #
+      # @param [Hash] headers Request headers
+      #
+      # @return [JSON] Request response
+      #
+      def health_check(headers: {})
+        request = Api::HealthCheck.build(headers: headers)
+        Connection::Client.call_sync(request)
+      end
+
+      #
+      # Request /info endpoint synchronously
+      #
+      # @param [Hash] headers Request headers
+      #
+      # @return [JSON] Request response
+      #
+      def info(headers: {})
+        request = Api::Info.build(headers: headers)
+        Connection::Client.call_sync(request)
+      end
+
+      #
       # Request /ksql endpoint
       #
       # @param [String] ksql SQL Statement
@@ -64,6 +100,18 @@ module Ksql
         request = Api::Stream.build(sql, headers: headers, properties: properties, session_variables: session_variables)
         client, prepared_request = Connection::Client.call_async(request)
         Handlers::Stream.handle(client, prepared_request)
+      end
+
+      #
+      # Request /terminate endpoint synchronously
+      #
+      # @param [Array<String>] delete_topic_list Kafka topic names or regular expressions
+      #
+      # @return [JSON] Request response
+      #
+      def terminate(delete_topic_list: nil, headers: {})
+        request = Api::Terminate.build(delete_topic_list, headers: headers)
+        Connection::Client.call_sync(request)
       end
     end
   end

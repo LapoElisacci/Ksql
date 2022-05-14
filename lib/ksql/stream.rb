@@ -15,7 +15,7 @@ module Ksql
     # Close the streaming connection
     #
     def close
-      raise StreamError.new('The stream hasn\'t stared!') unless @id.present?
+      raise StreamError.new('The stream hasn\'t started!') unless @id.present?
 
       @client.close
     end

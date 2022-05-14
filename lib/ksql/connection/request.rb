@@ -9,7 +9,7 @@ module Ksql
       # @return [Array] Request params
       #
       def to_params
-        return method, endpoint, { body: body.to_json, headers: headers.merge(auth_headers) }
+        return method, endpoint, { body: body.to_json, headers: headers.merge(auth_headers) }.compact
       end
 
       private
