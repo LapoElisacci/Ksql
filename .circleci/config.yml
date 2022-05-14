@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  browser-tools: circleci/browser-tools@1.2.3
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -9,7 +12,7 @@ jobs:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
-      - image: ruby:3.1.2-alpine
+      - image: cimg/ruby:3.0-browsers
       - image: confluentinc/cp-zookeeper:7.0.1
         environment:
           ZOOKEEPER_CLIENT_PORT: 2181
@@ -35,8 +38,11 @@ jobs:
       KSQLDB_HOST: localhost:8088
     steps:
       - checkout
+      - browser-tools/install-browser-tools
       - run: bundle install -j $(nproc)
       - run: bundle exec rspec spec
+      - store_artifacts:
+          path: coverage
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
