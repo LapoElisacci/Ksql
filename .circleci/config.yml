@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs: 
+  wait-for: cobli/wait-for@1.0.0
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -30,12 +33,16 @@ jobs:
           KSQL_BOOTSTRAP_SERVERS: localhost:9092
           KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
           KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+          KSQL_OPTS: "-Dksql.heartbeat.enable=true"
     environment:
       CI: "true"
-      KSQLDB_HOST: localhost:8088
+      KSQLDB_HOST: http://localhost:8088
     steps:
+      - wait-for/port:
+          host: localhost
+          port: 8088
       - checkout
-      - run: bundle install -j $(nproc)
+      - run: bundle install
       - run: bundle exec rspec spec
 
 # Invoke jobs via workflows

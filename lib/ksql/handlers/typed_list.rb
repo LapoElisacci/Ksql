@@ -2,7 +2,7 @@
 
 module Ksql
   module Handlers
-    class TypedRow
+    class TypedList
       #
       # Define and instanciate an OpenStruct to fit the typed request response
       #

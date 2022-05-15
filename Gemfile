@@ -10,3 +10,5 @@ gem 'rake', '~> 13'
 gem 'rspec', '~> 3'
 
 gem 'rubocop', '~> 1'
+
+gem 'simplecov', require: false, group: :test

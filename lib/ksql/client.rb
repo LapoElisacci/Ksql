@@ -67,7 +67,7 @@ module Ksql
       def ksql(ksql, command_sequence_number: nil, headers: {}, session_variables: {}, streams_properties: {})
         request = Api::Ksql.build(ksql, command_sequence_number: command_sequence_number, headers: headers, session_variables: session_variables, streams_properties: streams_properties)
         result = Connection::Client.call_sync(request)
-        Handlers::TypedRow.handle(result)
+        Handlers::TypedList.handle(result)
       end
 
       #

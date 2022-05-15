@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+require 'simplecov'
+SimpleCov.start
+
 require 'ksql'
 
 Ksql.configure do |config|
-  config.host = ENV['KSQLDB_HOST'] || 'localhost:8088'
+  config.host = ENV['KSQLDB_HOST'] || 'http://localhost:8088'
 end
 
 RSpec.configure do |config|

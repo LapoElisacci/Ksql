@@ -16,6 +16,7 @@ GEM
     ast (2.4.2)
     concurrent-ruby (1.1.10)
     diff-lcs (1.5.0)
+    docile (1.4.0)
     http-2 (0.11.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
@@ -54,6 +55,12 @@ GEM
     rubocop-ast (1.15.0)
       parser (>= 3.0.1.1)
     ruby-progressbar (1.11.0)
+    simplecov (0.21.2)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
@@ -68,6 +75,7 @@ DEPENDENCIES
   rake (~> 13)
   rspec (~> 3)
   rubocop (~> 1)
+  simplecov
 
 BUNDLED WITH
    2.3.9
