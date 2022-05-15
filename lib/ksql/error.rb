@@ -2,6 +2,5 @@
 
 module Ksql
   class Error < OpenStruct
-    # Description here
   end
 end

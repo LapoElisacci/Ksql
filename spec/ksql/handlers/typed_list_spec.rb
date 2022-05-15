@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe Ksql::Handlers::Raw do
+RSpec.describe Ksql::Handlers::TypedList do
   context 'When response is not error' do
     it 'Parses the JSON body and returns' do
-      response = Ksql::Connection::Response.new(body: [{ 'foo': 'bar' }].to_json, headers: { ':status' => 200 })
+      response = Ksql::Connection::Response.new(body: [{ '@type': 'Foo', 'foo': 'bar', 'bar': 'foo' }].to_json, headers: { ':status' => 200 })
       expect(response.error?).to eq(false)
       result = described_class.handle(response)
-      expect(result.class).to eq(Array)
-      expect(result.first.class).to eq(Hash)
-      expect(result.first['foo']).to eq('bar')
+      expect(result.class).to eq(Ksql::Foo)
+      expect(result.foo).to eq('bar')
+      expect(result.bar).to eq('foo')
     end
   end
 
