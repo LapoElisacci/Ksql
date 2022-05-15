@@ -1,5 +1,11 @@
 ## [Releases]
 
+## [0.1.2] - 2022-05-15
+
+### Fixed
+
+- Missing cluster_status require.
+
 ## [0.1.1] - 2022-05-05
 
 ### Fixed

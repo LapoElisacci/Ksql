@@ -1,8 +1,8 @@
 ## <img src="https://user-images.githubusercontent.com/50866745/156314925-b823bfe2-a9d4-4b83-8376-29a6a659b57f.png" width="48"> ksqlDB Client  <!-- omit in toc -->
 [![CircleCI](https://circleci.com/gh/LapoElisacci/Ksql/tree/main.svg?style=svg)](https://circleci.com/gh/LapoElisacci/Ksql/tree/main)
-![](https://img.shields.io/static/v1?label=Coverage&message=98.78%&color=green)
+![](https://img.shields.io/static/v1?label=Coverage&message=98.78%&color=brightgreen)
 ![](https://img.shields.io/static/v1?label=Latest&message=0.1.1&color=blue)
-![](https://ruby-gem-downloads-badge.herokuapp.com/ksql?type=total&color=green)
+![](https://ruby-gem-downloads-badge.herokuapp.com/ksql?type=total&color=blue)
 ![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)
 
 **KSQL** is a [ksqlDB](https://ksqldb.io/) Ruby client that focuses on ease of use. Supports all recent ksqlDB features and does not have any heavyweight dependencies.
