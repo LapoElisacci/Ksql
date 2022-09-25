@@ -12,6 +12,7 @@
 .DS_Store
 .rspec_status
 .stignore
+.ruby-version
 *.log
 *.gem
 *.yml
