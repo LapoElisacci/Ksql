@@ -10,7 +10,7 @@ require 'active_record'
 #      .order("id asc")
 #      .page(1).per(20)
 #      .to_sql
-module ActiveKsql
+module Ksql
   module SQL
     class Builder
       attr_reader :sql, :conditions, :havings, :orders, :groups, :limit_options, :page_options
